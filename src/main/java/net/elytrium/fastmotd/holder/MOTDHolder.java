@@ -22,6 +22,7 @@ import com.velocitypowered.api.proxy.server.ServerPing;
 import com.velocitypowered.proxy.protocol.ProtocolUtils;
 import io.netty.buffer.ByteBuf;
 import java.util.List;
+import net.elytrium.fastmotd.utils.CenterPlaceholder;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.serializer.ComponentSerializer;
 
@@ -33,7 +34,12 @@ public class MOTDHolder {
   public MOTDHolder(ComponentSerializer<Component, Component, String> serializer, String versionName,
                     String descriptionSerialized, String favicon, List<String> information) {
     String name = versionName.replace("\"", "\\\"");
-    Component description = serializer.deserialize(descriptionSerialized.replace("{NL}", "\n"));
+    Component description;
+    if (CenterPlaceholder.contains(descriptionSerialized)) {
+      description = CenterPlaceholder.deserialize(serializer, descriptionSerialized);
+    } else {
+      description = serializer.deserialize(descriptionSerialized.replace("{NL}", "\n"));
+    }
 
     this.legacyHolder =
         new MOTDBytesHolder(serializer, ProtocolUtils.getJsonChatSerializer(ProtocolVersion.MINECRAFT_1_15_2), name, description, favicon, information);

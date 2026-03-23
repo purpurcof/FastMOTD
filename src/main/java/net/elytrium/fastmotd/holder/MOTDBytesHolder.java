@@ -28,6 +28,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.UUID;
 import net.elytrium.fastmotd.utils.ByteBufCopyThreadLocal;
+import net.elytrium.fastmotd.utils.CenterPlaceholder;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.serializer.ComponentSerializer;
 import net.kyori.adventure.text.serializer.gson.GsonComponentSerializer;
@@ -170,6 +171,10 @@ public class MOTDBytesHolder {
   }
 
   private String toLegacy(String from) {
+    if (CenterPlaceholder.contains(from)) {
+      return LegacyComponentSerializer.legacySection().serialize(CenterPlaceholder.deserialize(this.inputSerializer, from));
+    }
+
     return LegacyComponentSerializer.legacySection().serialize(this.inputSerializer.deserialize(from));
   }
 

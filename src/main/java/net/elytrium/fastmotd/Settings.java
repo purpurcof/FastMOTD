@@ -75,6 +75,11 @@ public class Settings extends YamlSerializable {
         @CommentValue("but will open your server to nullping attacks")
     })
     public boolean ALLOW_IMPROPER_PINGS = false;
+    @Comment({
+        @CommentValue("Target width for <center> alignment in glyph units"),
+        @CommentValue("Increase to move centered lines right, decrease to move them left")
+    })
+    public double CENTER_LINE_LENGTH = 45.0;
 
     public VERSIONS VERSIONS = new VERSIONS();
 
