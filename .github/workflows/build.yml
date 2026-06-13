@@ -54,17 +54,3 @@ jobs:
           prerelease: true
           name: Dev-build ${{ steps.git-version.outputs.id }}
           tag: dev-build
-      - name: Upload to Modrinth
-        if: ${{ (github.event_name == 'push' || github.event_name == 'workflow_dispatch') && secrets.MODRINTH_TOKEN != '' }}
-        uses: RubixDev/modrinth-upload@v1
-        with:
-          token: ${{ secrets.MODRINTH_TOKEN }}
-          file_path: build/libs/${{ steps.find-jar.outputs.jarname }}
-          name: Dev-build ${{ steps.git-version.outputs.id }}
-          version: ${{ steps.git-version.outputs.id }}
-          changelog: ${{ github.event.commits != null && join(github.event.commits.*.message, '\n') || 'Manual build' }}
-          game_versions: 1.7.2
-          release_type: beta
-          loaders: velocity
-          featured: false
-          project_id: OfMfkdiO
